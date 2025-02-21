@@ -8,6 +8,9 @@ import (
 
 const (
 	varPrefix = '$'
+	typeInt   = "int"
+	typeFloat = "float"
+	typeStr   = "str"
 )
 
 // Define function type
@@ -122,19 +125,19 @@ func parseArgument(arg string) (*FunctionArg, error) {
 
 	typ := arg[index+1:]
 	if index == -1 {
-		typ = "int"
+		typ = typeInt
 	} else {
 		arg = arg[:index]
 	}
 
 	switch typ {
-	case "int":
+	case typeInt:
 		val, _ := strconv.ParseInt(arg, 10, 64)
 		return &FunctionArg{Const: val}, nil
-	case "float":
+	case typeFloat:
 		val, _ := strconv.ParseFloat(arg, 64)
 		return &FunctionArg{Const: val}, nil
-	case "str":
+	case typeStr:
 		return &FunctionArg{Const: arg}, nil
 	default:
 		return nil, errors.New("invalid argument: " + arg)
@@ -155,16 +158,16 @@ func parseVar(arg string) *FunctionArg {
 
 	typ := arg[index+1:]
 	if index == -1 {
-		typ = "int"
+		typ = typeInt
 	} else {
 		arg = arg[:index]
 	}
 
 	switch typ {
-	case "int":
+	case typeInt:
 		val, _ := strconv.ParseInt(arg, 10, 64)
 		return &FunctionArg{Const: val}
-	case "float":
+	case typeFloat:
 		val, _ := strconv.ParseFloat(arg, 64)
 		return &FunctionArg{Const: val}
 	default:
