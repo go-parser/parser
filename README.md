@@ -4,7 +4,7 @@
 
 ---
 
-    Go Parser is a simple expression parser that supports numeric calculations, string concatenation, function calls, conditional statements, function definitions, function registration, complex calculations, and variable substitution.
+Go Parser is a simple expression parser that supports numeric calculations, string concatenation, function calls, conditional statements, function definitions, function registration, complex calculations, and variable substitution.
 
 #### Definitions
 
