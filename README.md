@@ -1,108 +1,76 @@
 # Go Parser
 
-## Introduction
+A high-performance Go expression parser that supports numeric calculations, string concatenation, function calls, conditional statements, function definitions, and registration.
 
----
+## Features
 
-Go Parser is a simple expression parser that supports numeric calculations, string concatenation, function calls, conditional statements, function definitions, function registration, complex calculations, and variable substitution.
+- ✨ Numeric Operations: Supports +, -, *, /, and () operators
+- 🔤 String Concatenation: Using + operator
+- 📝 Variable Substitution: Variables with $ prefix
+- 🎯 Function Calls: Functions with @ prefix
+- ⚡ Conditional Statements: Supports >, <, >=, <=, ==, !=, &&, ||, ! operators
+- 🚀 High Performance: Excellent concurrent execution performance
 
-#### Definitions
+## Usage Guide
 
-##### 1. Numeric Calculations
+### 1. Basic Syntax
 
-Supports +, -, *, /, and (). Numeric expressions must be wrapped in parentheses.
-
+#### Numeric Calculations
+Numeric expressions must be wrapped in parentheses:
 ```shell
-(1+2)*3 # 9
+(1+2)*3  # Result: 9
 ```
 
-##### 2. String Concatenation
-
-+ operator supports string concatenation. Strings must be wrapped in double quotes.
-
+#### String Concatenation
+Use + operator to concatenate strings, strings must be wrapped in double quotes:
 ```shell
-"a"+"b" # ab
+"hello"+"world"  # Result: helloworld
 ```
 
-##### 3. Variable Input
-
-Supports variable input. Variables must be prefixed with $. Variables cannot contain special characters except underscores.
-
+#### Variables
+Variables must start with $, underscores are allowed but other special characters are not:
 ```shell
-$stock+1 # stock is a variable, value is passed during execution
+$price+100  # price is a variable, value is passed during execution
 ```
 
-##### 4. Functions
-
-Supports function calls, function definitions, and function registration. Function calls must be prefixed with @.
-
+#### Function Calls
+Function calls must start with @:
 ```shell
-@funA($a+1,2) # calling function funA
+@calculate($price, 100)  # Calling calculate function
 ```
 
-##### 5. Conditional Statements
-
-Supports `>,<,>=,<=,==,!=,&&,||,!,(,)` operators
-
+#### Conditional Expressions
+Supports complex conditional logic:
 ```shell
-($a >= 100 && $a < 200) || @funA($b) == "a123"
+($price >= 100 && $price < 200) || @isVIP($userId)
 ```
 
-## Examples
+### 2. Code Examples
 
----
-
-#### 1. Writing Expressions
-
-```shell
-($a+1)*10 # numeric calculation, $a is a variable
-
-100+($a+1)*10 # numeric calculation, $a is a variable
-
-$a+"s"+$b+"t"+$c # string concatenation
-
-@funA($a+1,2) # calling function funA
-
-@funA($a+1,2) > 12 # calling function funA and comparing with 12
-```
-
-For easy identification and to avoid ambiguity, variables must be prefixed with $ and function calls must be prefixed with @
-
-#### 2. Function Definition and Registration
-
-```shell
-type Function func(args ...any) any // function definition
-
-RegisterFunc(name string, f Function) // register function
-```
-
-#### 3. Expression Execution
-
-Simple configuration, numeric calculations supporting +, -, *, /, (), string concatenation
-
-```shell
-($a+1)*10
-```
-
+#### Function Registration
 ```go
-f , err := ParseExpression("($a+1)*10")
+// Function definition
+type Function func(args ...any) any
 
-result := f.Execute(map[string]any{"a": 10})
+// Register function
+RegisterFunc(name string, f Function)
 ```
 
-#### 4. Conditional Statement Execution
-
-```shell
-$a > 100 && $a < 200 || @funA($b) == "a123"
-```
-
+#### Expression Execution
 ```go
-f, err := ParseExpression(`$a > 100 && $a < 200 || @funA($b) == "a123"`)
+// Simple calculation
+expr, err := ParseExpression("($price+100)*0.8")
+result := expr.Execute(map[string]any{"price": 200})
 
-result := f.Execute(map[string]any{"a": 120, "b": "a123"})
+// Conditional evaluation
+expr, err := ParseExpression(`$price > 100 && @isVIP($userId)`)
+result := expr.Execute(map[string]any{
+    "price": 150,
+    "userId": "user123",
+})
 ```
 
-## Performance
+## Performance Benchmarks
 
 ```
 go test -bench=. -benchmem -tags -v
