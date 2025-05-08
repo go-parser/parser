@@ -39,7 +39,7 @@ func (e *Expression) String() string {
 func ParseExpression(expr string) (*FunctionCall, error) {
 	expr, err := parser.Parse(expr)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("parse %q error: %w", expr, err)
 	}
 
 	return ParseFunctionExpression(expr)
